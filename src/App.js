@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Container, Typography, Box, Button } from '@mui/material';
+import Dashboard from './components/Dashboard';
+import ProductoList from './components/ProductoList';
+import ProductoForm from './components/ProductoForm';
+import InventarioBox from './components/InventarioBox';
+import CombinacionesBox from './components/CombinacionesBox';
+import ModalGatos from './components/ModalGatos';
+import FooterDatoInutil from './components/FooterDatoInutil';
 
 function App() {
+  const [vista, setVista] = useState(null);
+
+  const renderVista = () => {
+    switch (vista) {
+      case 'listar': return <ProductoList />;
+      case 'crear': return <ProductoForm />;
+      case 'inventario': return <InventarioBox />;
+      case 'combinaciones': return <CombinacionesBox />;
+      case 'modalGato': return <ModalGatos />;
+      case 'footer': return <FooterDatoInutil />;
+      default: return <Dashboard setVista={setVista} />;
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container maxWidth="md" sx={{ mt: 4 }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Gestión de Productos PTM
+      </Typography>
+
+      <Box mb={2} textAlign="right">
+        {vista && (
+          <Button onClick={() => setVista(null)} variant="outlined">
+            ⬅ Volver al menú
+          </Button>
+        )}
+      </Box>
+
+      {renderVista()}
+    </Container>
   );
 }
 
